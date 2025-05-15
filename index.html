@@ -1,120 +1,716 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialApp</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body { background-color: #f5f5f5; }
-        .navbar { background-color: #007bff; }
-        .navbar-brand, .nav-link, .dropdown-item { color: white !important; cursor: pointer; }
-        .post-card {
-            background: white; border-radius: 10px; padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-bottom: 15px;
-        }
-        .post-card img { border-radius: 50%; width: 50px; height: 50px; }
-        .post-content { margin-left: 10px; }
-        .hidden { display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All Services</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Paleta de colores personalizada */
+    :root {
+      --color1: #131021;
+      --color2: #0e4267;
+      --color3: #087fbc;
+      --color4: #08c9ff;
+      --color5: #1ae1da;
+    }
+
+    body {
+      background-color: var(--color1);
+      color: white;
+    }
+
+    .navbar {
+      background-color: var(--color2) !important;
+    }
+
+    .navbar .nav-link,
+    .navbar-brand {
+      color: var(--color5) !important;
+    }
+
+    .navbar .nav-link:hover {
+      color: var(--color4) !important;
+    }
+
+    .card {
+      background-color: var(--color2);
+      color: white;
+    }
+
+    .form-control {
+      background-color: var(--color1);
+      color: white;
+      border: 1px solid var(--color4);
+    }
+
+    .form-control::placeholder {
+      color: var(--color4);
+    }
+
+    .btn-primary {
+      background-color: var(--color3);
+      border-color: var(--color3);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color4);
+      border-color: var(--color4);
+      color: #000;
+    }
+
+    .btn-success {
+      background-color: var(--color5);
+      border-color: var(--color5);
+      color: #000;
+    }
+
+    .btn-success:hover {
+      background-color: var(--color4);
+      border-color: var(--color4);
+      color: #000;
+    }
+
+    .btn-warning {
+      background-color: #f0ad4e;
+      border-color: #f0ad4e;
+    }
+
+    a {
+      color: var(--color5);
+    }
+
+    a:hover {
+      color: var(--color4);
+    }
+
+    #post-container h3,
+    #profile-container h3,
+    .card-title {
+      color: var(--color5);
+    }
+
+    .card-body .btn-link {
+      color: var(--color4);
+    }
+
+    .card-body .btn-link:hover {
+      color: var(--color5);
+    }
+  </style>
 </head>
-<body>
-    
-    <!-- Barra de Navegación -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand">SocialApp</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> Menú
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" onclick="mostrarSeccion('inicio')">Inicio</a></li>
-                            <li><a class="dropdown-item" onclick="mostrarSeccion('perfil')">Perfil</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<body class="bg-light">
 
-    <!-- Sección de Inicio -->
-    <div id="inicio" class="container mt-4">
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="card p-3">
-                    <h5>Crear Publicación</h5>
-                    <textarea id="postText" class="form-control" rows="3" placeholder="¿Qué estás pensando?"></textarea>
-                    <button class="btn btn-primary mt-2" onclick="agregarPublicacion()">
-                        Publicar <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                <h5 class="mt-4">Últimas Publicaciones</h5>
-                <div id="postsContainer"></div>
-            </div>
-        </div>
+  <!-- Barra de Navegación -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary d-none" id="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="#">All Services <i class="fas fa-tools fa-lg" style="color: #ffffff;"></i> </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#" id="nav-home">Inicio <i class="fas fa-home fa-lg" style="color: #63E6BE;"></i> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#" id="nav-profile">Perfil <i class="fas fa-user-alt fa-lg" style="color: #63E6BE;"></i> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#" id="nav-logout">Cerrar sesión <i class="fas fa-sign-out-alt fa-lg" style="color: #63E6BE;"></i> </a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <!-- Sección de Perfil -->
-    <div id="perfil" class="container mt-4 hidden">
-        <div class="card p-4 text-center">
-            <img id="avatar" src="https://i.pravatar.cc/100" class="rounded-circle mb-3" width="100">
-            <h4 id="nombre">Usuario</h4>
-            <p id="bio">Biografía corta...</p>
-            <button class="btn btn-primary" onclick="editarPerfil()">Editar Perfil</button>
+  <!-- Sección para las publicaciones -->
+
+
+
+
+
+  
+  <div class="container py-5 d-none" id="post-container">
+    <div class="col-md-8 mx-auto">
+    <div class="card p-3">
+        <h3>Publicaciones</h3>
+        <div class="mb-3">
+          <textarea class="form-control" id="post-content" rows="3" placeholder="Escribe tu publicación para darte a conocer..."></textarea>
         </div>
+    <button class="btn btn-primary" id="create-post-btn">Crear publicación <i class="fas fa-paper-plane"></i></button>
     </div>
+     </div>
+    <div id="posts-list" class="mt-4"></div>
+  </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Sección para el perfil -->
+  <div class="container py-5 d-none" id="profile-container">
+    <h3>Perfil</h3>
+    <div id="profile-info">
+      <!-- Aquí se cargará la información del perfil -->
+    </div>
+    <div id="profile-rating" class="mt-4">
+      <button class="btn btn-warning" id="rate-profile-btn">Calificar</button>
+      
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+      <!-- Botón de burbuja -->
+<button id="chatToggle" class="btn rounded-circle shadow-lg" style="background-color: #ff4081; color: white; position: fixed; bottom: 20px; right: 20px; width: 65px; height: 65px; z-index: 1000;">
+  <i class="bi bi-chat-dots-fill fs-3"></i>
+</button>
+
+<!-- Ventana de chat -->
+<div id="chatBox" class="card border-0 shadow-lg" style="border-radius: 15px; position: fixed; bottom: 90px; right: 20px; width: 320px; display: none; z-index: 1000;">
+  <div class="card-header text-white" style="background: linear-gradient(135deg, #ff4081, #ff80ab); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+    <strong>Chat</strong>
+    <button type="button" class="btn-close btn-close-white float-end" id="closeChat"></button>
+  </div>
+  <div class="card-body" id="chatMessages" style="height: 220px; overflow-y: auto; background-color: #fff3f8;">
+    <div class="mb-2 p-2 rounded bg-white shadow-sm text-muted" style="max-width: 85%;">Hola, chateemos y hagamos trato</div>
+  </div>
+  <div class="card-footer p-2" style="background-color: #fff0f5; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+    <div class="input-group">
+  <input type="text" id="chatInput" class="form-control border-0" placeholder="Escribe un mensaje...">
+  <button class="btn text-white" style="background-color: #ff4081;" id="sendBtn">
+    <i class="bi bi-send-fill"></i>
+  </button>
+</div>
+    <br>
+     <div class="text-center mt-2">
+  <button id="payBtn" class="btn btn-warning btn-sm w-100">
+    <i class="bi bi-credit-card"></i> Pagar con tarjeta
+  </button>
+</div>
+  </div>
+</div>
+  <!-- Interfaz de pago -->
+<div id="paymentBox" class="card shadow-lg border-0" style="display: none; position: fixed; bottom: 90px; right: 20px; width: 320px; border-radius: 15px; z-index: 1001;">
+  <div class="card-header bg-warning text-dark" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+    <strong>Pagar con Tarjeta</strong>
+    <button type="button" class="btn-close float-end" id="closePayment"></button>
+  </div>
+  <div class="card-body" style="background-color: #fff8e1;">
+      <form id="paymentForm" novalidate>
+  <div class="mb-2">
+    <label class="form-label">Número de tarjeta</label>
+    <input type="text" class="form-control" id="cardNumber"
+       placeholder="1234 5678 9012 3456" maxlength="19" required
+       pattern="^(\d{4} ?){4}$">
+<div class="invalid-feedback">Debe tener 16 dígitos en formato 1234 5678 9012 3456.</div>
+    <div class="invalid-feedback">Debe tener 16 dígitos.</div>
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Fecha de expiración (MM/AA)</label>
+    <input type="text" class="form-control" id="cardExpiry" placeholder="MM/AA" required pattern="^(0[1-9]|1[0-2])\/\d{2}$">
+    <div class="invalid-feedback">Formato inválido. Usa MM/AA.</div>
+  </div>
+  <div class="mb-2">
+    <label class="form-label">CVC</label>
+    <input type="text" class="form-control" id="cardCVC" placeholder="123" required pattern="^\d{3,4}$">
+    <div class="invalid-feedback">Debe tener 3 o 4 dígitos.</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Nombre en la tarjeta</label>
+    <input type="text" class="form-control" id="cardName" required pattern="^[a-zA-Z\s]+$">
+    <div class="invalid-feedback">Solo letras y espacios permitidos.</div>
+  </div>
+  <button type="submit" class="btn btn-success w-100">Pagar</button>
+</form>
+  </div>
+</div>
+  <!-- Modal de comisión -->
+<div class="modal fade" id="commissionModal" tabindex="-1" aria-labelledby="commissionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="commissionModalLabel">Información</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        El pago ya incluye el 10% de comisión para AllServices.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  const chatToggle = document.getElementById('chatToggle');
+  const chatBox = document.getElementById('chatBox');
+  const closeChat = document.getElementById('closeChat');
+
+  chatToggle.addEventListener('click', () => {
+    chatBox.style.display = chatBox.style.display === 'none' ? 'block' : 'none';
+  });
+
+  closeChat.addEventListener('click', () => {
+    chatBox.style.display = 'none';
+  });
+  const payBtn = document.getElementById('payBtn');
+const paymentBox = document.getElementById('paymentBox');
+const closePayment = document.getElementById('closePayment');
+const paymentForm = document.getElementById('paymentForm');
+
+payBtn.addEventListener('click', () => {
+  const commissionModal = new bootstrap.Modal(document.getElementById('commissionModal'));
+  commissionModal.show();
+
+  const paymentBox = document.getElementById('paymentBox');
+
+  const modalEl = document.getElementById('commissionModal');
+  modalEl.addEventListener('hidden.bs.modal', () => {
+    chatBox.style.display = 'none';
+    paymentBox.style.display = 'block';
+  }, { once: true });
+});
+
+closePayment.addEventListener('click', () => {
+  paymentBox.style.display = 'none';
+});
+
+paymentForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  // Referencias a los campos
+  const cardNumber = document.getElementById('cardNumber');
+  const cardExpiry = document.getElementById('cardExpiry');
+  const cardCVC = document.getElementById('cardCVC');
+  const cardName = document.getElementById('cardName');
+
+  let valid = true;
+
+  // Validaciones manuales
+  [cardNumber, cardExpiry, cardCVC, cardName].forEach(input => {
+    if (!input.checkValidity()) {
+      input.classList.add('is-invalid');
+      valid = false;
+    } else {
+      input.classList.remove('is-invalid');
+    }
+  });
+
+  // Validar fecha lógica (MM/AA no en el pasado)
+  const [mm, yy] = cardExpiry.value.split('/');
+  const currentDate = new Date();
+  const expDate = new Date(`20${yy}`, parseInt(mm), 1);
+
+  if (expDate < currentDate) {
+    cardExpiry.classList.add('is-invalid');
+    valid = false;
+  } else {
+    cardExpiry.classList.remove('is-invalid');
+  }
+
+  if (valid) {
+    alert('Pago procesado correctamente (simulado).');
+    paymentBox.style.display = 'none';
+    paymentForm.reset();
+  }
+});
+  
+  // Solo permitir números y espacios en el número de tarjeta
+cardNumber.addEventListener('input', () => {
+  let raw = cardNumber.value.replace(/\D/g, '').slice(0, 16); // solo dígitos, máx 16
+  let formatted = raw.match(/.{1,4}/g)?.join(' ') || ''; // agrupar cada 4 dígitos
+  cardNumber.value = formatted;
+});
+
+// Solo permitir MM/AA (numérico y '/')
+cardExpiry.addEventListener('input', () => {
+  let cleaned = cardExpiry.value.replace(/[^\d]/g, '');
+  if (cleaned.length >= 2) {
+    cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2, 4);
+  }
+  cardExpiry.value = cleaned.slice(0, 5);
+});
+
+// Solo permitir números en CVC
+cardCVC.addEventListener('input', () => {
+  cardCVC.value = cardCVC.value.replace(/[^\d]/g, '').slice(0, 4);
+});
+
+// Solo letras y espacios para el nombre
+cardName.addEventListener('input', () => {
+  cardName.value = cardName.value.replace(/[^a-zA-Z\s]/g, '');
+});
+  
+  const sendBtn = document.getElementById('sendBtn');
+const chatInput = document.getElementById('chatInput');
+const chatMessages = document.getElementById('chatMessages');
+
+sendBtn.addEventListener('click', () => {
+  const message = chatInput.value.trim();
+  if (message !== "") {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = "mb-2 p-2 rounded bg-primary text-white ms-auto";
+    messageDiv.style.maxWidth = "85%";
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatInput.value = "";
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+});
+</script>
+    </div>
+  </div>
+
+  <!-- Login Form -->
+  <div class="container py-5" id="login-container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow" id="login-card">
+          <div class="card-body">
+            <h3 class="card-title text-center mb-4">Iniciar Sesión</h3>
+            <form id="login-form">
+              <div class="mb-3">
+                <label for="login-username" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="login-username" placeholder="Introduce tu usuario" required>
+              </div>
+              <div class="mb-3">
+                <label for="login-password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="login-password" placeholder="Introduce tu contraseña" required>  
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+              </div>
+            </form>
+            <div class="text-center mt-3">
+              <a href="#" id="show-register">¿No tienes cuenta? Regístrate</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="card shadow mt-4 d-none" id="register-card">
+          <div class="card-body">
+            <h3 class="card-title text-center mb-4">Registro</h3>
+            <form id="register-form">
+              <div class="mb-3">
+                <label for="register-username" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="register-username" placeholder="Introduce un nombre usuario" required>
+              </div>
+              <div class="mb-3">
+                <label for="register-password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="register-password" placeholder="Crea una contraseña" required>
+              </div>
+              <div class="mb-3">
+                <label for="register-phone" class="form-label">Teléfono</label>
+                <input type="text" class="form-control" id="register-phone" placeholder="Introduce tu telefono" required>
+              </div>
+              <div class="mb-3">
+                <label for="register-location" class="form-label">Ubicación</label>
+                <input type="text" class="form-control" id="register-location"  placeholder="Escribe la zona en la que puedes trabajar" required>
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success">Registrarme</button>
+              </div>
+            </form>
+            <div class="text-center mt-3">
+              <a href="#" id="show-login">¿Ya tienes cuenta? Inicia sesión</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- Script Principal -->
     <script>
-        function mostrarSeccion(seccion) {
-            document.getElementById("inicio").classList.add("hidden");
-            document.getElementById("perfil").classList.add("hidden");
-            document.getElementById(seccion).classList.remove("hidden");
-        }
+  
+   // Inicializar Supabase
+    const supabaseUrl = 'https://ytnevvnbvwuocrtuixyi.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0bmV2dm5idnd1b2NydHVpeHlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0Nzc2ODcsImV4cCI6MjA2MDA1MzY4N30.NjaJ0LVfRnl-pgP8tGcjDs5T5T6jswmNMYzZwAZA1H4';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+  let currentUser = null;
+  document.addEventListener('DOMContentLoaded', async () => {
+   
 
-        function agregarPublicacion() {
-            let postText = document.getElementById("postText").value;
-            if (postText.trim() === "") return;
+    // Elementos
+    const loginCard = document.getElementById('login-card');
+    const registerCard = document.getElementById('register-card');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const showRegister = document.getElementById('show-register');
+    const showLogin = document.getElementById('show-login');
+    const navbar = document.getElementById('navbar');
+    const postContainer = document.getElementById('post-container');
+    const postsList = document.getElementById('posts-list');
+    const profileContainer = document.getElementById('profile-container');
+    const profileInfo = document.getElementById('profile-info');
+    const profileRating = document.getElementById('profile-rating');
+    const rateProfileBtn = document.getElementById('rate-profile-btn');
+    const navProfile = document.getElementById('nav-profile');
+    const navLogout = document.getElementById('nav-logout');
+    const navHome = document.getElementById('nav-home');
+    const postContent = document.getElementById('post-content');
+    const createPostBtn = document.getElementById('create-post-btn');
 
-            let postContainer = document.getElementById("postsContainer");
-            let newPost = document.createElement("div");
-            newPost.classList.add("post-card", "d-flex", "p-3");
-            newPost.innerHTML = `
-                <img src="https://i.pravatar.cc/50?img=${Math.floor(Math.random() * 70)}" alt="User">
-                <div class="post-content">
-                    <h6>Usuario Anónimo</h6>
-                    <p>${postText}</p>
-                    <small class="text-muted">${new Date().toLocaleString()}</small>
-                </div>
-            `;
 
-            postContainer.prepend(newPost);
-            document.getElementById("postText").value = "";
-        }
+    // Mostrar formulario de registro
+    showRegister.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginCard.classList.add('d-none');
+      registerCard.classList.remove('d-none');
+    });
 
-        function cargarPerfil() {
-            document.getElementById("nombre").textContent = localStorage.getItem("nombre") || "Usuario";
-            document.getElementById("bio").textContent = localStorage.getItem("bio") || "Biografía corta...";
-        }
+    // Mostrar formulario de login
+    showLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      registerCard.classList.add('d-none');
+      loginCard.classList.remove('d-none');
+    });
 
-        function editarPerfil() {
-            let nuevoNombre = prompt("Nuevo nombre:", localStorage.getItem("nombre") || "Usuario");
-            let nuevaBio = prompt("Nueva biografía:", localStorage.getItem("bio") || "Biografía corta...");
-            if (nuevoNombre) localStorage.setItem("nombre", nuevoNombre);
-            if (nuevaBio) localStorage.setItem("bio", nuevaBio);
-            cargarPerfil();
-        }
+    // Evento para registrar usuario
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('register-username').value.trim();
+      const password = document.getElementById('register-password').value.trim();
+      const phone = document.getElementById('register-phone').value.trim();
+      const location = document.getElementById('register-location').value.trim();
 
-        cargarPerfil();
-    </script>
+      const { data, error } = await supabase
+        .from('profiles')
+        .insert([{ username: username, password: password, telefono: phone, ubicacion: location }]);
 
+      if (error) {
+        alert('Error al registrar: ' + error.message);
+      } else {
+        alert('Registro exitoso. Ahora inicia sesión.');
+        registerCard.classList.add('d-none');
+        loginCard.classList.remove('d-none');
+      }
+    });
+
+    // Evento para iniciar sesión
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('username', username)
+        .eq('password', password)
+        .maybeSingle();
+
+      if (error || !data) {
+        alert('Usuario o contraseña incorrectos.');
+      } else {
+        alert('¡Bienvenido, ' + data.username + '!');
+        loginCard.classList.add('d-none');
+        navbar.classList.remove('d-none');
+        postContainer.classList.remove('d-none');
+        currentUser = data;
+        loadPosts();
+      }
+    });
+
+    // Evento para cerrar sesión
+    navLogout.addEventListener('click', () => {
+      navbar.classList.add('d-none');
+      postContainer.classList.add('d-none');
+      profileContainer.classList.add('d-none');
+      loginCard.classList.remove('d-none');
+    });
+
+    // Mostrar la página de inicio
+    navHome.addEventListener('click', () => {
+      postContainer.classList.remove('d-none');
+      profileContainer.classList.add('d-none');
+    });
+
+    // Mostrar el perfil
+    navProfile.addEventListener('click', () => {
+      profileContainer.classList.remove('d-none');
+      postContainer.classList.add('d-none');
+      loadProfile();
+    });
+
+
+    // Cargar todas las publicaciones
+    async function loadPosts() {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        alert('Error al cargar publicaciones: ' + error.message);
+      } else {
+        postsList.innerHTML = '';
+        data.forEach(post => {
+          const postElement = document.createElement('div');
+          postElement.classList.add('card', 'mb-3');
+          postElement.innerHTML = `
+            <div class="card-body">
+              <img src="https://i.pravatar.cc/50?img=${Math.floor(Math.random() * 70)}" alt="User">
+              <p class="card-text">${post.contenido}</p>
+              <button class="btn btn-link" onclick="viewProfile('${post.user_id}')">Ver Perfil</button>
+            </div>
+          `;
+          postsList.appendChild(postElement);
+        });
+      }
+    }
+
+    createPostBtn.addEventListener('click', async () => {
+  const content = postContent.value.trim();
+  if (!content) return alert('Escribe algo antes de publicar.');
+
+  const { error } = await supabase
+    .from('posts')
+    .insert([{ user_id: currentUser.id, contenido: content }]);
+
+  if (error) {
+    alert('Error al crear publicación: ' + error.message);
+  } else {
+    postContent.value = '';
+    loadPosts();
+  }
+});
+
+    
+    
+    async function loadProfile() {
+      document.getElementById('rate-profile-btn')?.classList.add('d-none');
+  if (!currentUser) return;
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', currentUser.id)
+    .maybeSingle();
+
+  if (error || !data) {
+    profileInfo.innerHTML = '<p>Error al cargar tu perfil.</p>';
+  } else {
+    profileInfo.innerHTML = `
+      <p><strong>Usuario:</strong> ${data.username}</p>
+      <p><strong>Teléfono:</strong> ${data.telefono}</p>
+      <p><strong>Ubicación:</strong> ${data.ubicacion}</p>
+      <p><strong>Rating:</strong> ${data.rating} (${data.rating_count} votos)</p>
+    `;
+    
+  }
+}
+    
+    
+    // Evento para calificar a un usuario
+rateProfileBtn.addEventListener('click', async () => {
+  if (!currentUser || !profileInfo.dataset.userid) return;
+
+  const userId = profileInfo.dataset.userid;
+
+  const input = prompt('Califica este perfil del 1 al 5:');
+  const rating = parseInt(input);
+
+  if (isNaN(rating) || rating < 1 || rating > 5) {
+    alert('Por favor ingresa un número válido entre 1 y 5.');
+    return;
+  }
+
+  // Obtener el perfil actual para conocer los valores actuales
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('rating, rating_count')
+    .eq('id', userId)
+    .maybeSingle();
+
+  if (error || !data) {
+    alert('Error al obtener datos del perfil.');
+    return;
+  }
+
+  const newRating = (data.rating || 0) + rating;
+  const newCount = (data.rating_count || 0) + 1;
+
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({ rating: newRating, rating_count: newCount })
+    .eq('id', userId);
+
+  if (updateError) {
+    alert('Error al guardar la calificación.');
+  } else {
+    alert('Gracias por tu calificación.');
+    viewProfile(userId); // recarga el perfil actualizado
+  }
+});
+    
+    
+    // Cargar publicaciones al inicio
+    loadPosts();
+  });
+  
+  function generarEstrellasFA(rating) {
+  const totalEstrellas = 5;
+  const estrellasLlenas = Math.floor(rating);
+  const mediaEstrella = rating % 1 >= 0.5 ? 1 : 0;
+  const estrellasVacias = totalEstrellas - estrellasLlenas - mediaEstrella;
+
+  let estrellasHTML = "";
+
+  for (let i = 0; i < estrellasLlenas; i++) {
+    estrellasHTML += '<i class="fas fa-star text-warning"></i>';
+  }
+  if (mediaEstrella) {
+    estrellasHTML += '<i class="fas fa-star-half-alt text-warning"></i>';
+  }
+  for (let i = 0; i < estrellasVacias; i++) {
+    estrellasHTML += '<i class="far fa-star text-warning"></i>';
+  }
+
+  return estrellasHTML;
+}
+
+async function viewProfile(userId) {
+  document.getElementById('rate-profile-btn')?.classList.remove('d-none');
+  const profileContainer = document.getElementById('profile-container');
+  const postContainer = document.getElementById('post-container');
+  const profileInfo = document.getElementById('profile-info');
+
+  profileContainer.classList.remove('d-none');
+  postContainer.classList.add('d-none');
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .maybeSingle();
+
+  profileInfo.dataset.userid = data?.id;
+
+  if (error || !data) {
+    profileInfo.innerHTML = '<p>Error al cargar el perfil.</p>';
+  } else {
+    // Aquí va el paso 3
+    let ratingTexto = 'Sin calificaciones';
+    if (data.rating_count > 0) {
+      const promedio = data.rating / data.rating_count;
+      const estrellas = generarEstrellasFA(promedio);
+      ratingTexto = `${promedio.toFixed(2)} ${estrellas} (${data.rating_count} votos)`;
+    }
+
+    profileInfo.innerHTML = `
+      <p><strong>Usuario:</strong> ${data.username}</p>
+      <p><strong>Teléfono:</strong> ${data.telefono}</p>
+      <p><strong>Ubicación:</strong> ${data.ubicacion}</p>
+      <p><strong>Rating:</strong> ${ratingTexto}</p>
+    `;
+  }
+}
+  
+</script>
 </body>
 </html>
